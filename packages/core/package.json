@@ -1,0 +1,68 @@
+{
+  "name": "core",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./index.ts",
+  "type": "module",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.ts",
+        "default": "./index.ts"
+      }
+    },
+    "./user": {
+      "import": {
+        "types": "./user.ts",
+        "default": "./user.ts"
+      }
+    },
+    "./page": {
+      "import": {
+        "types": "./page.ts",
+        "default": "./page.ts"
+      }
+    },
+    "./order": {
+      "import": {
+        "types": "./order.ts",
+        "default": "./order.ts"
+      }
+    },
+    "./product": {
+      "import": {
+        "types": "./product.ts",
+        "default": "./product.ts"
+      }
+    },
+    "./template": {
+      "import": {
+        "types": "./template.ts",
+        "default": "./template.ts"
+      }
+    },
+    "./file": {
+      "import": {
+        "types": "./file.ts",
+        "default": "./file.ts"
+      }
+    },
+    "./payment": {
+      "import": {
+        "types": "./payment.ts",
+        "default": "./payment.ts"
+      }
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "db": "workspace:*",
+    "lucide-react": "^0.291.0"
+  }
+}

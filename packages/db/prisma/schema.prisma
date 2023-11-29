@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+
+    @@unique([provider, providerAccountId])
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    role          String    @default("user")
+    createdAt     DateTime  @default(now())
+
+    accounts Account[]
+    files    File[]
+    projects Project[]
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Template {
+    id          String  @id @default(cuid())
+    name        String
+    structure   String
+    thumbnailId String?
+    thumbnail   File?   @relation(fields: [thumbnailId], references: [id], onDelete: Restrict)
+}
+
+model Project {
+    id           String        @id @default(cuid())
+    userId       String
+    user         User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+    title        String
+    description  String
+    faviconId    String?
+    favicon      File?         @relation("Favicon", fields: [faviconId], references: [id], onDelete: Restrict)
+    thumbnailId  String?
+    thumbnail    File?         @relation("Thumbnail", fields: [thumbnailId], references: [id], onDelete: Restrict)
+    pages        Page[]
+    colorPalette ColorPalette?
+    breakPoint   BreakPoint?
+    container    Container?
+}
+
+model Page {
+    id          String  @id @default(cuid())
+    path        String
+    projectId   String
+    project     Project @relation(fields: [projectId], references: [id], onDelete: Restrict)
+    title       String
+    description String
+    thumbnailId String?
+    thumbnail   File?   @relation(fields: [thumbnailId], references: [id], onDelete: Restrict)
+    structure   String
+
+    @@unique([path, projectId])
+}
+
+model File {
+    id                 String     @id @default(cuid())
+    path               String     @unique
+    mimeType           String
+    userId             String?
+    user               User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    assets             Asset[]
+    templates          Template[]
+    pages              Page[]
+    faviconProjects    Project[]  @relation("Favicon")
+    thumbnailPprojects Project[]  @relation("Thumbnail")
+}
+
+model Asset {
+    id       String @id @default(cuid())
+    fileId   String
+    file     File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+    path     String @unique
+    mimeType String
+    label    String
+    width    Int
+
+    @@unique([fileId, label])
+}
+
+model ColorPalette {
+    id         String   @id @default(cuid())
+    projectId  String   @unique
+    project    Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    primary    String
+    secondary  String
+    accent     String
+    background String
+    black      String
+    info       String
+    warning    String
+    error      String
+    border     String
+}
+
+model BreakPoint {
+    id        String   @id @default(cuid())
+    projectId String   @unique
+    project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    xxl       String
+    xl        String
+    l         String
+    m         String
+    s         String
+    xs        String
+}
+
+model Container {
+    id        String   @id @default(cuid())
+    projectId String   @unique
+    project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    xxl       String
+    xl        String
+    l         String
+    m         String
+    s         String
+    xs        String
+}

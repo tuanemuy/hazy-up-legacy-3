@@ -1,0 +1,52 @@
+{
+  "name": "util",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./index.ts",
+  "type": "module",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.ts",
+        "default": "./index.ts"
+      }
+    },
+    "./common": {
+      "import": {
+        "types": "./index.ts",
+        "default": "./index.ts"
+      }
+    },
+    "./router": {
+      "import": {
+        "types": "./router.ts",
+        "default": "./router.ts"
+      }
+    },
+    "./form": {
+      "import": {
+        "types": "./form.ts",
+        "default": "./form.ts"
+      }
+    },
+    "./s3": {
+      "import": {
+        "types": "./s3.ts",
+        "default": "./s3.ts"
+      }
+    }
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
+    "react-hook-form": "^7.47.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10"
+  }
+}
